@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/*
+* Exposes endpoints to clients (browser, Postman or frontend)
+ */
 @RestController
 @RequestMapping("/api/tasks")
 @RequiredArgsConstructor

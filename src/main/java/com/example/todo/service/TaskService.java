@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/*
+* This class sits between the controller and repository
+* calls repository methods and can contain extra business rules if needed
+ */
 @Service
 @RequiredArgsConstructor
 public class TaskService {

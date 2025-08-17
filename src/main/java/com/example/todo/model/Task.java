@@ -9,6 +9,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/* This class represents the data structure of a task in the app
+* Maps to a database table (task)
+* each object here corresponds to a row in that tabke
+ */
 @Entity
 @Data
 @NoArgsConstructor
