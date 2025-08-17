@@ -26,7 +26,7 @@ public class TaskController {
         return service.getAllTasks();
     }
 
-    @GetMapping("/(id)")
+    @GetMapping("/{id}")
     public ResponseEntity<Task> getTask(@PathVariable Long id) {
         return service.getTaskById(id)
                 .map(ResponseEntity::ok)
@@ -38,12 +38,12 @@ public class TaskController {
         return service.createTask(task);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
         return service.updateTask(id, task);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable Long id) {
         service.deleteTask(id);
     }
