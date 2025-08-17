@@ -1,6 +1,7 @@
 package com.example.todo.service;
 
 import com.example.todo.model.Task;
+import com.example.todo.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,28 +18,28 @@ public class TaskService {
         return repository.findAll();
     }
 
-    public Optional<Task> getTaskById() {
-        return repository.findbyId();
+    public Optional<Task> getTaskById(Long id) {
+        return repository.findById(id);
     }
 
-    public Task createTask() {
+    public Task createTask(Task task) {
         return repository.save(task);
     }
 
     public Task updateTask(Long id, Task task) {
-        task.setId(id)
+        task.setId(id);
         return repository.save(task);
     }
 
-    public Task deleteTask(Long id) {
-        return repository.delete(task);
+    public void deleteTask(Long id) {
+        repository.deleteById(id);
     }
 
     public List<Task> getTaskByCompletion(boolean isComplete) {
-        return repository.findByCompletion(isComplete);
+        return repository.findByCompleted(isComplete);
     }
 
     public List<Task> getTaskByTag(String tag) {
-        return repository.findByTagContaining(tag);
+        return repository.findByTagsContaining(tag);
     }
 }

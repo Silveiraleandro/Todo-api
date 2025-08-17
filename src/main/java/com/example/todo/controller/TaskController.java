@@ -25,14 +25,14 @@ public class TaskController {
 
     @GetMapping("/(id)")
     public ResponseEntity<Task> getTask(@PathVariable Long id) {
-        return service.getTaskById()
+        return service.getTaskById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public Task createTask(@RequestBody Task task) {
-        return service.createTask();
+        return service.createTask(task);
     }
 
     @PutMapping
