@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,17 +18,17 @@ public class FileStorageService {
     private final FileMetadataRepository repository;
 
     public FileStorageService(@Value("${storage.location:uploads}") String storageLocation,
-                                FileMetadataRepository repository) throws IOException {
+                              FileMetadataRepository repository) throws IOException {
         this.rootLocation = Paths.get(storageLocation);
         this.repository = repository;
 
-        if(!Files.exists(rootLocation)) {
+        if (!Files.exists(rootLocation)) {
             Files.createDirectories(rootLocation);
         }
     }
 
     public FileMetadata store(MultipartFile file) throws IOException {
-        Path destination = rootLocation.resolve(file.getOriginalFilename());
+        Path destination = rootLocation.resolve(file.getOriginalFilename()).normalize();
         Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
 
         FileMetadata metadata = new FileMetadata(
@@ -43,8 +40,11 @@ public class FileStorageService {
     }
 
     public byte[] load(String filename) throws IOException {
-        Path filePath = rootLocation.resolve(filename);
-        return Files.readAllBytes(filePath);
+        Path path = rootLocation.resolve(filename).normalize();
+        if (!Files.exists(path)) {
+            throw new NoSuchFileException(filename);
+        }
+        return Files.readAllBytes(path);
     }
 
     public List<FileMetadata> listFiles() {
@@ -52,11 +52,10 @@ public class FileStorageService {
     }
 
     public void delete(String filename) throws IOException {
-        Path filePath = rootLocation.resolve(filename);
+        Path filePath = rootLocation.resolve(filename).normalize();
         Files.deleteIfExists(filePath);
 
-        repository.findAll()
-                .stream()
+        repository.findAll().stream()
                 .filter(f -> f.getFileName().equals(filename))
                 .findFirst()
                 .ifPresent(f -> repository.deleteById(f.getId()));
