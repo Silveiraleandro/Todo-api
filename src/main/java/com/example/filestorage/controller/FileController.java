@@ -1,10 +1,12 @@
+/*
+ * © 2025 Leandro Silveira. All rights reserved.
+ */
 package com.example.filestorage.controller;
 
 import com.example.filestorage.model.FileMetadata;
 import com.example.filestorage.service.FileStorageService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.List;
-
-import static java.net.URI.create;
 
 @RestController
 @RequestMapping("/api/files")

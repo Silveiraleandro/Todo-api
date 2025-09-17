@@ -1,3 +1,6 @@
+/*
+ * © 2025 Leandro Silveira. All rights reserved.
+ */
 package com.example.todo.model;
 
 import jakarta.persistence.Entity;
